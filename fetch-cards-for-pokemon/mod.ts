@@ -8,21 +8,25 @@ declare const API_KEY: string;
 export const fetchCardsForPokemon = async (inputString: string) => {
   const inputJson = JSON.parse(inputString);
 
-  // pokemonId be null if it's the first this function is being called
+  // pokemonId will be null if it's the first this function is being called
   const pokemonId = inputJson.pageToken;
 
   if(!pokemonId){
     // first time function is called, get the name of the 1st pokemon
     const pokemonCardsResponse = await fetchCardsForPokemonId('0');
 
-    // return a list of cards for the first pokemon and the id f
+    // return a list of cards for the first pokemon and the id for getting the next pokemon name. Remember to strigify the response.
     return JSON.stringify({ data: { pokemonCards: pokemonCardsResponse.cards.data.map(c => new PokemonCard(c)) }, nextPageToken: 1});
   } else {
 
+    // get the cards for the next pokemon
     const pokemonCardsResponse = await fetchCardsForPokemonId(pokemonId);
 
+    // if there is another pokemon, iterate the pokemon id and return it as the next page token
     if(pokemonCardsResponse.next){
       return JSON.stringify({ data: { pokemonCards: pokemonCardsResponse.cards.data.map(c => new PokemonCard(c)) }, nextPageToken: parseInt(pokemonId) + 1});
+
+    // if there is not another pokemon, don't return a nextPageToken and the function won't be called again
     } else {
       return JSON.stringify({ data: { pokemonCards: pokemonCardsResponse.cards.data.map(c => new PokemonCard(c)) }});
     }
