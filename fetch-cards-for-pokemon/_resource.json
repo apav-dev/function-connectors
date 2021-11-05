@@ -1,0 +1,7 @@
+{
+  "$id": "FetchPokemonCardsPlugin",
+  "$schema": "https://schema.yext.com/config/platform/plugin/v1",
+  "globals": {
+    "API_KEY": "4694c331-777f-4186-8ce0-d0b6833fe8f7"
+  }
+}
