@@ -3,7 +3,7 @@ import {  MovieDetailsResponse,  MovieImagesResponse,  MovieListResponse } from 
 
 const imdbUrl = 'https://movies-tvshows-data-imdb.p.rapidapi.com/';
 
-export const fetchMovieListForYear = (page: number) => fetchFromIMDB<MovieListResponse>({type: 'get-movies-byyear', page, year: 1999});
+export const fetchMovieList = (page: number) => fetchFromIMDB<MovieListResponse>({type: 'get-movies-byyear', page, year: 1999});
 
 export const fetchMovieDetailsById = (imdb: string) => fetchFromIMDB<MovieDetailsResponse>({type: 'get-movie-details', imdb });
 

@@ -1,8 +1,14 @@
 // deno-lint-ignore-file camelcase
 
+export type State = {
+  nextPage: number;
+  movieList: Movie[];
+  movieIndex: number;
+};
+
 export type IMDBApiResponse = {
   status: string;
-  statusMessage: string;
+  status_message: string;
 }
 
 export type Movie = {
@@ -14,7 +20,7 @@ export type Movie = {
 export type MovieListResponse = IMDBApiResponse & {
   results: number;
   Total_results: number;
-  movie_results: Movie[];
+  movie_results?: Movie[];
 } 
 
 export type MovieResponse = IMDBApiResponse & Movie;
@@ -45,4 +51,4 @@ export type MovieDetails = {
 
 export type MovieDetailsResponse = IMDBApiResponse & Movie & MovieDetails;
 
-export type MovieEntity = Movie & MovieImages & MovieDetails;
+export type MovieEntity = IMDBApiResponse & Movie & MovieImages & MovieDetails;
