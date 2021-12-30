@@ -6,7 +6,7 @@ const fetchMovies = async (stateString: string): Promise<string> => {
   
   const inputJson = JSON.parse(stateString);
 
-  // State will be undefined the first time the function is called as there is no page token.
+  // Initiate state the first time the function is called
   if(!inputJson.pageToken){
     state = {
       nextPage: 1,
@@ -14,11 +14,11 @@ const fetchMovies = async (stateString: string): Promise<string> => {
       movieIndex: 0,
     }
   } else {
-    // Parse the page token string after the first run.
+    // Parse the page token string after the first run
     state = JSON.parse(inputJson.pageToken);
   }
 
-  // If the movie index is 0, the next page of movies is fetched.
+  // If the movie index is 0, the next page of movies is fetched
   if (state.movieIndex === 0){
     const movieListResponse = await fetchMovieList(state.nextPage);
 
@@ -27,12 +27,12 @@ const fetchMovies = async (stateString: string): Promise<string> => {
       state.movieList = movieListResponse.movie_results;
       state.nextPage = state.nextPage + 1;
     } else {
-      // If there are no movies on the page, terminate the run loop by not returning a nextPageToken.
+      // If there are no movies on the page, terminate the run loop by not returning a nextPageToken
       return JSON.stringify({ data: {}})
     }
   }
 
-  // Increment the movie index to get the next movie from the current list of movies.
+  // Increment the movie index to get the next movie from the current list of movies
   // deno-lint-ignore camelcase
   const imdb_id = state.movieList[state.movieIndex].imdb_id;
   state.movieIndex = state.movieIndex += 1;
