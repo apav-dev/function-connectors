@@ -5,10 +5,9 @@ const fetchMovies = async (stateString: string): Promise<string> => {
   let state: State;
   
   const inputJson = JSON.parse(stateString);
-  state = inputJson.pageToken;
 
   // State will be undefined the first time the function is called as there is no page token.
-  if(!state){
+  if(!inputJson.pageToken){
     state = {
       nextPage: 1,
       movieList: [],
@@ -23,11 +22,12 @@ const fetchMovies = async (stateString: string): Promise<string> => {
   if (state.movieIndex === 0){
     const movieListResponse = await fetchMovieList(state.nextPage);
 
-    // Assign the list of movies from the movie page to the movie list. If there are no movies on the page, terminate the run loop by not returning a nextPageToken.
+    // Assign the list of movies from the movie page to the movie list. 
     if(movieListResponse.movie_results){
       state.movieList = movieListResponse.movie_results;
       state.nextPage = state.nextPage + 1;
     } else {
+      // If there are no movies on the page, terminate the run loop by not returning a nextPageToken.
       return JSON.stringify({ data: {}})
     }
   }
